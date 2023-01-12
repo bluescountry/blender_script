@@ -1,0 +1,30 @@
+import bpy
+import random
+
+def randomize_rotation():
+    if bpy.context.active_object is None:
+        return
+    obj = bpy.context.active_object
+    obj.rotation_euler[0] = random.uniform(0, 360)
+    obj.rotation_euler[1] = random.uniform(0, 360)
+    obj.rotation_euler[2] = random.uniform(0, 360)
+
+randomize_rotation()
+
+class RandomRotationOperator(bpy.types.Operator):
+    bl_idname = "object.random_rotation"
+    bl_label = "Random Rotation"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, context):
+        randomize_rotation()
+        return {'FINISHED'}
+
+def register():
+    bpy.utils.register_class(RandomRotationOperator)
+
+def unregister():
+    bpy.utils.unregister_class(RandomRotationOperator)
+
+if __name__ == "__main__":
+    register()
